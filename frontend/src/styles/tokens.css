@@ -1,0 +1,66 @@
+/* Fonte da verdade: Design System seção 2.3 */
+:root {
+  /* Base */
+  --color-bg: #171018;
+  --color-surface: #231628;
+  --color-surface-2: #2E1B35;
+  --color-border: #3F2A49;
+
+  /* Marca */
+  --color-primary: #7B1FA2;
+  --color-primary-hover: #8E24AA;
+  --color-secondary: #FF4081;
+  --color-secondary-hover: #FF5C93;
+  --color-accent: #FF8C1A;
+  --color-price: #FFD43B;
+
+  /* Texto */
+  --color-text: #FFF0C2;
+  --color-text-muted: #D8CFA8;
+  --color-on-secondary: #171018;
+
+  /* Feedback */
+  --color-success: #4CAF50;
+  --color-error: #EF5350;
+  --color-warning: #FFB300;
+
+  /* Interação */
+  --color-focus: #FFD43B;
+  --color-glow: #E000E8; /* magenta neon tirado do contorno do mascote */
+
+  /* Forma */
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-pill: 999px;
+
+  /* Sombras e brilho */
+  --shadow-card: 0 8px 24px rgba(0, 0, 0, 0.45);
+  --shadow-glow-primary: 0 0 24px rgba(123, 31, 162, 0.55);
+  --shadow-glow-secondary: 0 0 20px rgba(255, 64, 129, 0.45);
+
+  /* Espaçamento (escala de 4px) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* Layout */
+  --container-max: 1200px;
+  --navbar-height: 72px;
+
+  /* Tipografia */
+  --font-display: 'Fredoka', system-ui, sans-serif;
+  --font-body: 'Nunito', system-ui, sans-serif;
+  --text-h1: clamp(2.5rem, 6vw, 4.5rem);
+  --text-h2: clamp(2rem, 4vw, 3rem);
+  --text-h3: 1.5rem;
+  --text-price: 1.5rem;
+  --text-button: 1.0625rem;
+  --text-body: 1rem;
+  --text-small: 0.875rem;
+}
