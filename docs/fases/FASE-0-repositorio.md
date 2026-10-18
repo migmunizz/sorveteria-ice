@@ -7,10 +7,10 @@
 
 ## Checklist
 
-- [ ] Conferir que a raiz do repositório tem: `README.md`, `frontend/`, `backend/`, `assets/`, `docs/`.
-- [ ] Criar `.gitignore` na raiz com: `node_modules/`, `dist/`, `.env`, `*.log`, `.DS_Store`, `coverage/`, `backend/prisma/*.db`, `__pycache__/`, `.venv/`.
-- [ ] Criar `.editorconfig` (UTF-8, LF, 2 espaços, newline final).
-- [ ] Criar `package.json` na raiz **só com scripts de atalho** (sem dependências):
+- [x] Conferir que a raiz do repositório tem: `README.md`, `frontend/`, `backend/`, `assets/`, `docs/`.
+- [x] Criar `.gitignore` na raiz com: `node_modules/`, `dist/`, `.env`, `*.log`, `.DS_Store`, `coverage/`, `backend/prisma/*.db`, `__pycache__/`, `.venv/`.
+- [x] Criar `.editorconfig` (UTF-8, LF, 2 espaços, newline final).
+- [x] Criar `package.json` na raiz **só com scripts de atalho** (sem dependências):
   ```json
   {
     "name": "sorveteria-ice",
@@ -24,7 +24,7 @@
     }
   }
   ```
-- [ ] Rodar `npm --prefix frontend install` e `npm run front:build` — deve passar sem erros.
+- [x] Rodar `npm --prefix frontend install` e `npm run front:build` — deve passar sem erros.
 - [ ] Configurar o remoto, se ainda não estiver (manual): `git remote add origin https://github.com/migmunizz/sorveteria-ice.git`.
 - [ ] Atualizar o card “Repositorios” no Trello com o link do GitHub (tarefa manual).
 

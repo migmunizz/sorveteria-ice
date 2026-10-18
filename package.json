@@ -1,0 +1,11 @@
+{
+  "name": "sorveteria-ice",
+  "private": true,
+  "scripts": {
+    "front": "npm --prefix frontend run dev",
+    "front:build": "npm --prefix frontend run build",
+    "back": "npm --prefix backend run start:dev",
+    "db:up": "docker compose up -d",
+    "db:down": "docker compose down"
+  }
+}
