@@ -30,10 +30,10 @@ Teste: `mysql -u sorveteria -psorveteria123 -e "SHOW DATABASES;"` deve listar `s
 ## Checklist
 
 ### Projeto Nest
-- [ ] Apagar a pasta vazia `backend/` (só tem `.gitkeep`) e, a partir da raiz, criar o projeto: `npx @nestjs/cli new backend --package-manager npm --skip-git`.
-- [ ] Instalar: `npm i @prisma/client@6 @nestjs/config class-validator class-transformer` e `npm i -D prisma@6`.
-- [ ] Apagar `app.controller.ts`, `app.service.ts` e o teste de exemplo. Criar `GET /health` → `{ "status": "ok" }` em `src/health/health.controller.ts`.
-- [ ] `backend/.env.example` e `backend/.env`:
+- [x] Apagar a pasta vazia `backend/` (só tem `.gitkeep`) e, a partir da raiz, criar o projeto: `npx @nestjs/cli new backend --package-manager npm --skip-git`.
+- [x] Instalar: `npm i @prisma/client@6 @nestjs/config class-validator class-transformer` e `npm i -D prisma@6`.
+- [x] Apagar `app.controller.ts`, `app.service.ts` e o teste de exemplo. Criar `GET /health` → `{ "status": "ok" }` em `src/health/health.controller.ts`.
+- [x] `backend/.env.example` e `backend/.env`:
   ```
   DATABASE_URL="mysql://sorveteria:sorveteria123@localhost:3306/sorveteria"
   JWT_SECRET="troque-por-um-texto-grande-e-secreto"
@@ -43,16 +43,16 @@ Teste: `mysql -u sorveteria -psorveteria123 -e "SHOW DATABASES;"` deve listar `s
   ```
 
 ### Prisma
-- [ ] `npx prisma init --datasource-provider mysql`.
-- [ ] Copiar o schema da Fase 2 para `prisma/schema.prisma` (abaixo do `generator` e do `datasource`).
-- [ ] `npx prisma migrate dev --name init`.
-- [ ] `src/prisma/prisma.service.ts` (estende `PrismaClient` e conecta no `onModuleInit`) e `src/prisma/prisma.module.ts` com `@Global()` exportando o service.
+- [x] `npx prisma init --datasource-provider mysql`.
+- [x] Copiar o schema da Fase 2 para `prisma/schema.prisma` (abaixo do `generator` e do `datasource`).
+- [x] `npx prisma migrate dev --name init`.
+- [x] `src/prisma/prisma.service.ts` (estende `PrismaClient` e conecta no `onModuleInit`) e `src/prisma/prisma.module.ts` com `@Global()` exportando o service.
 
 ### main.ts e app.module.ts
-- [ ] `ConfigModule.forRoot({ isGlobal: true })` e `PrismaModule` no `AppModule`.
-- [ ] `app.enableCors({ origin: process.env.FRONTEND_URL })`.
-- [ ] `app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }))`.
-- [ ] Porta de `process.env.PORT`.
+- [x] `ConfigModule.forRoot({ isGlobal: true })` e `PrismaModule` no `AppModule`.
+- [x] `app.enableCors({ origin: process.env.FRONTEND_URL })`.
+- [x] `app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }))`.
+- [x] Porta de `process.env.PORT`.
 
 ### Estrutura esperada
 ```
