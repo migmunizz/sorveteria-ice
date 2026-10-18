@@ -7,8 +7,8 @@ Resumo do quadro (export completo em `trello-export.json`). Responsável por tod
 - Sorveteria para vender online **com carrinho de compras**.
 - Cores creme e branco (no Design System virou tema escuro roxo com texto creme).
 - Litoral de SP, entrega em até **10 km** (Long Beach).
-- Pagamento: **PagSeguro**.
-- Tecnologias: React, NestJS, TypeScript, Prisma, MySQL e MongoDB.
+- Pagamento: **PagSeguro** (no MVP o pagamento é simulado; integração real fica para depois).
+- Tecnologias: React, NestJS, TypeScript, Prisma, MySQL e MongoDB (no MVP só MySQL).
 - Metodologias: Scrum/Kanban, padrão de projeto, diagrama de classe, BPMN.
 - Repositórios: GitHub (https://github.com/migmunizz/sorveteria-ice), Vercel, Google Docs.
 
@@ -30,13 +30,13 @@ Resumo do quadro (export completo em `trello-export.json`). Responsável por tod
 |---|---|---|
 | Reunião inicial | – | – |
 | Frontend - react | Criar com Vite, desenvolver telas, conectar com backend. Entrega 20/10 | 1, 7 |
-| Backend - Nestjs | Rotas; model, services e controllers; banco; entidades (login, senha, nome completo, CPF, e-mail, telefone); cadastro/login; *se possível, IA com Python*. Entrega 03/11 | 2–6, 9 |
+| Backend - Nestjs | Rotas; model, services e controllers; banco; entidades (login, senha, nome completo, CPF, e-mail, telefone); cadastro/login; *se possível, IA com Python* (fora do MVP). Entrega 03/11 | 2–6 |
 | Atualizar Repositorio - Commit | Commit e backup a cada atualização | todas |
-| Elaborar o readme | Disciplina, professor, membros, descrição, figura, link, apresentação pessoal | 10 |
-| Teste de usabilidade | – | 10 |
-| Reunião final | – | 10 |
+| Elaborar o readme | Disciplina, professor, membros, descrição, figura, link, apresentação pessoal | 8 |
+| Teste de usabilidade | – | 8 |
+| Reunião final | – | 8 |
 | Descoberta e planejamento | Requisitos, escopo do MVP, concorrentes, identidade visual, backlog | 2 |
-| Finalização | Bugs do teste de usabilidade, Lighthouse, demo, retrospectiva | 10 |
+| Finalização | Bugs do teste de usabilidade, Lighthouse, demo, retrospectiva | 8 |
 | Lista Real | Preços, nomes, sabores e categorias | 1, 5 |
 
 ## Rotas definidas no Trello

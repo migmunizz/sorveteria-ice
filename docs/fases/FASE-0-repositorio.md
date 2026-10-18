@@ -3,7 +3,7 @@
 **Objetivo:** deixar o monorepo pronto no GitHub, com o frontend rodando e o ambiente local preparado para o backend.
 
 **Trello:** card 4 “Repositorios” e card 17 “Atualizar Repositorios”.
-**Pré-requisitos:** Node 20+, npm, Git, Docker Desktop (para o MySQL na Fase 3).
+**Pré-requisitos:** Node 20+, npm e Git.
 
 ## Checklist
 
@@ -18,9 +18,7 @@
     "scripts": {
       "front": "npm --prefix frontend run dev",
       "front:build": "npm --prefix frontend run build",
-      "back": "npm --prefix backend run start:dev",
-      "db:up": "docker compose up -d",
-      "db:down": "docker compose down"
+      "back": "npm --prefix backend run start:dev"
     }
   }
   ```

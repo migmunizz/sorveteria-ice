@@ -14,7 +14,7 @@ import type { Address, PaymentMethod } from '../types';
 
 const payments: { id: PaymentMethod; label: string }[] = [
   { id: 'pix', label: 'Pix' },
-  { id: 'cartao', label: 'Cartão (PagSeguro)' },
+  { id: 'cartao', label: 'Cartão' },
   { id: 'dinheiro', label: 'Dinheiro na entrega' },
 ];
 
@@ -45,7 +45,7 @@ export default function Checkout() {
     setLoading(true);
     setApiError('');
     try {
-      // PagSeguro: aqui o backend criaria a cobrança. No mock o pedido é aprovado direto.
+      // Pagamento simulado: a forma escolhida só é registrada no pedido.
       const order = await createOrder(user!.id, { items, payment, address });
       clear();
       toast('success', 'Pedido realizado!');

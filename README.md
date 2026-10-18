@@ -5,10 +5,10 @@ Plataforma web de vendas de sorvetes: cardápio, carrinho, checkout, acompanhame
 | Camada | Stack |
 |---|---|
 | Frontend | React 18 + TypeScript + Vite + React Router |
-| Backend (Sprint II) | NestJS + TypeScript + Prisma (MVC) + JWT |
-| Banco | MySQL 8 via Docker (MongoDB fica no backlog) |
-| Pagamento | PagSeguro |
-| Deploy | Vercel (front) · GitHub |
+| Backend (Sprint II) | NestJS + TypeScript (MVC) + Prisma |
+| Banco | MySQL (MariaDB no Fedora), instalado direto no computador |
+| Pagamento | Simulado (Pix, cartão, dinheiro) |
+| Código | GitHub |
 | Metodologia | Scrum / Kanban (Trello) |
 
 ---
@@ -84,14 +84,12 @@ O plano completo está em [`docs/fases/`](docs/fases/README.md), uma fase por ar
 
 | Fase | Conteúdo |
 |---|---|
-| 0 | Repositório e ambiente |
+| 0 | Repositório e ambiente ✅ |
 | 1 | Frontend React ✅ |
-| 2 | Análise: requisitos, diagrama de classes, ER, BPMN, arquitetura MVC, padrões de projeto |
-| 3 | Setup NestJS + Prisma + MySQL (Docker) |
-| 4 | Usuários e autenticação JWT |
+| 2 | Análise: requisitos, diagrama de classes, modelo do banco, BPMN, arquitetura MVC, padrões de projeto |
+| 3 | Banco de dados + NestJS + Prisma |
+| 4 | Usuários e login |
 | 5 | Produtos / cardápio |
 | 6 | Pedidos e checkout |
 | 7 | Integração frontend ↔ backend |
-| 8 | Pagamento PagSeguro *(opcional)* |
-| 9 | Recomendação com IA em Python *(opcional)* |
-| 10 | Testes, deploy e README final |
+| 8 | Revisão e entrega |

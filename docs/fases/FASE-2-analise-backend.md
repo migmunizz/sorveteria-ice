@@ -1,43 +1,43 @@
 # Fase 2 — Análise e modelagem do backend (MVC)
 
-**Objetivo:** produzir a documentação de análise exigida pela disciplina (requisitos, diagrama de classes, modelo de dados, BPMN, arquitetura MVC e padrões de projeto) **antes** de escrever código do backend. Esta fase **não cria código**, só arquivos em `docs/analise/`.
+**Objetivo:** escrever a análise do sistema (requisitos, casos de uso, diagrama de classes, modelo do banco, BPMN, arquitetura MVC e padrões de projeto) **antes** de programar o backend. Esta fase **não cria código**, só arquivos em `docs/analise/`.
 
-**Trello:** card 1 “Reunião inicial” (metodologias: diagrama de classe, BPMN, padrão de projeto), card 8 “Backend - Nestjs” (entidades e rotas), card 13 “Descoberta e planejamento”.
-**Pré-requisitos:** Fase 1. Ler `frontend/src/types/index.ts` (é o contrato) e `docs/trello.md`.
+**Trello:** card 1 “Reunião inicial” (diagrama de classe, BPMN, padrão de projeto), card 8 “Backend - Nestjs” (entidades e rotas), card 13 “Descoberta e planejamento”.
+**Pré-requisitos:** Fase 1. Ler `frontend/src/types/index.ts` (é o contrato), `docs/arquitetura.md` e `docs/trello.md`.
 
 ## Checklist
 
-Todos os diagramas em **Mermaid** dentro de Markdown (o GitHub renderiza). Escrever em pt-BR.
+Diagramas em **Mermaid** dentro do Markdown (o GitHub desenha automaticamente). Tudo em pt-BR, com texto curto e direto — é material para apresentar.
 
 - [ ] `docs/analise/01-requisitos.md`
-  - Descrição do problema e público (clientes do litoral de SP, raio de 10 km).
-  - **Requisitos funcionais** numerados (RF01…): cadastro, login, listar cardápio, filtrar por categoria, ver produto, carrinho, checkout com endereço e pagamento, acompanhar pedido, histórico na minha conta, editar dados, contato, (admin) atualizar status do pedido.
-  - **Requisitos não funcionais** (RNF01…): mobile first, tema escuro, acessibilidade (contraste WCAG, foco visível), senha com hash, JWT, resposta da API < 500 ms local, pt-BR.
-  - **Escopo do MVP** × **Backlog futuro** (ex.: cupons, avaliações, painel admin completo, app mobile, MongoDB para logs).
-- [ ] `docs/analise/02-casos-de-uso.md` — diagrama (flowchart Mermaid com atores Cliente, Visitante, Admin) + tabela com os casos de uso principais (fluxo principal e alternativo de “Fazer pedido”).
-- [ ] `docs/analise/03-diagrama-de-classes.md` — `classDiagram` com as classes do domínio e as classes MVC de cada módulo:
-  - Domínio: `User`, `Product`, `Order`, `OrderItem`, `ContactMessage`, enums `Category`, `OrderStatus`, `PaymentMethod`, `Role`.
-  - Por módulo: `XController` → `XService` → `PrismaService`, e os DTOs (`RegisterDto`, `LoginDto`, `CreateOrderDto`, `UpdateMeDto`, `CreateContactDto`).
-- [ ] `docs/analise/04-modelo-de-dados.md` — `erDiagram` coerente com o schema abaixo + explicação de cada tabela.
-- [ ] `docs/analise/05-bpmn-pedido.md` — processo “Pedido de sorvete” com raias (Cliente, Sistema, Sorveteria): escolher produtos → login/cadastro → informar endereço → pagar → pedido recebido → preparando → saiu para entrega → entregue; incluir gateway “dentro do horário?” e “pagamento aprovado?”. Usar `flowchart LR` com `subgraph` por raia. Adicionar nota: *se o professor exigir notação BPMN oficial, redesenhar em https://demo.bpmn.io a partir deste fluxo*.
+  - Problema e público (clientes do litoral de SP, entrega em até 10 km).
+  - **Requisitos funcionais** (RF01…): cadastro, login, ver cardápio, filtrar por categoria, ver produto, carrinho, finalizar pedido com endereço e forma de pagamento, acompanhar pedido, histórico em “minha conta”, editar dados, enviar mensagem de contato.
+  - **Requisitos não funcionais** (RNF01…): funciona bem no celular, tema escuro, acessível (contraste e foco visível), senha guardada com hash, login com token, textos em pt-BR.
+  - **Escopo do MVP** × **Fora do escopo** (painel administrativo, pagamento real pelo PagSeguro, cupons, avaliações, recomendação com IA, app mobile).
+- [ ] `docs/analise/02-casos-de-uso.md` — diagrama (flowchart Mermaid com os atores Visitante e Cliente) + tabela dos casos de uso, detalhando “Fazer pedido” (fluxo principal e alternativos: carrinho vazio, não logado, campo de endereço faltando).
+- [ ] `docs/analise/03-diagrama-de-classes.md` — `classDiagram` com:
+  - Domínio: `User`, `Product`, `Order`, `OrderItem`, `ContactMessage` e os enums `Category`, `OrderStatus`, `PaymentMethod`.
+  - Camadas MVC de cada módulo: `XController` → `XService` → `PrismaService`, e os DTOs (`RegisterDto`, `LoginDto`, `UpdateMeDto`, `CreateOrderDto`, `CreateContactDto`).
+- [ ] `docs/analise/04-modelo-de-dados.md` — `erDiagram` igual ao schema abaixo + uma frase explicando cada tabela e cada relacionamento.
+- [ ] `docs/analise/05-bpmn-pedido.md` — processo “Pedido de sorvete” com raias Cliente, Sistema e Sorveteria: escolher produtos → entrar/cadastrar → informar endereço → escolher pagamento → pedido recebido → preparando → saiu para entrega → entregue. Incluir as decisões “está logado?” e “dentro do horário de funcionamento?”. Usar `flowchart LR` com um `subgraph` por raia. Nota no fim: *se for exigida a notação BPMN oficial, redesenhar em https://demo.bpmn.io seguindo este fluxo.*
 - [ ] `docs/analise/06-arquitetura-mvc.md`
-  - Diagrama do fluxo de uma requisição: React (View) → HTTP/JSON → `Controller` → `Service` (Model/regra) → `PrismaService` → MySQL.
-  - Tabela “camada MVC → arquivos do Nest” (igual à seção MVC de `docs/arquitetura.md`).
-  - Estrutura de pastas do `backend/src` (ver Fase 3).
-- [ ] `docs/analise/07-padroes-de-projeto.md` — explicar, com trecho de código curto de exemplo, onde cada padrão aparece:
-  - **MVC**, **Injeção de dependência** (NestJS), **Module**, **DTO**, **Repository** (services sobre o Prisma), **Singleton** (`PrismaService`), **Guard / Chain of Responsibility** (`JwtAuthGuard`), **Strategy** (gateway de pagamento da Fase 8), **Mapper** (entidade do banco → JSON do contrato).
-- [ ] `docs/analise/08-decisoes.md` — decisões registradas (formato: contexto, decisão, consequência):
-  1. Somente **MySQL** no MVP; MongoDB fica no backlog (era citado na reunião inicial, mas duas bases complicam um projeto simples).
-  2. **Prisma** como ORM.
-  3. **JWT** stateless, expiração de 7 dias.
-  4. Preço sempre recalculado no backend.
-  5. Pagamento começa **simulado**; PagSeguro sandbox é opcional (Fase 8).
-  6. Rotas em pt-BR, código em inglês.
+  - Diagrama do caminho de uma requisição: tela React → HTTP/JSON → Controller → Service → PrismaService → MySQL, e a volta.
+  - Tabela “parte do MVC → arquivos do NestJS” (igual à de `docs/arquitetura.md`).
+  - Árvore de pastas do `backend/src` (ver Fase 3).
+- [ ] `docs/analise/07-padroes-de-projeto.md` — para cada padrão, 2–3 linhas e um trecho curto de código mostrando onde ele aparece:
+  **MVC**, **Injeção de dependência** (o Nest entrega o service pronto no controller), **Módulos**, **DTO**, **Service como camada de acesso a dados** (parecido com Repository), **Singleton** (`PrismaService`, uma conexão só), **Guard** (`AuthGuard` bloqueia rotas sem login) e **Mapper** (converte o registro do banco no JSON que o frontend espera).
+- [ ] `docs/analise/08-decisoes.md` — decisões no formato contexto → decisão → consequência:
+  1. **MySQL** como único banco (o MongoDB citado na reunião inicial ficou de fora para manter o projeto simples).
+  2. Banco instalado direto no computador, **sem Docker** (no Fedora, MariaDB, compatível com MySQL).
+  3. **Prisma** para acessar o banco sem escrever SQL na mão.
+  4. Login com **JWT** e senha com hash (`bcryptjs`).
+  5. Preço sempre recalculado no backend.
+  6. Pagamento **simulado**; integração real com PagSeguro fica para depois do MVP.
+  7. Rotas em português, código em inglês.
 
-## Schema de referência (usar nos diagramas e na Fase 3)
+## Schema do banco (usar nos diagramas e na Fase 3)
 
 ```prisma
-enum Role          { cliente admin }
 enum Category      { sorvetes casquinhas picoles acai milkshakes }
 enum OrderStatus   { recebido preparando saiu_para_entrega entregue }
 enum PaymentMethod { pix cartao dinheiro }
@@ -49,7 +49,6 @@ model User {
   cpf          String   @unique
   phone        String
   passwordHash String
-  role         Role     @default(cliente)
   createdAt    DateTime @default(now())
   orders       Order[]
 }
@@ -106,19 +105,19 @@ model ContactMessage {
 }
 ```
 
-> `Order.id` é `Int` no banco (pedidos numerados #1, #2…) e vai como **string** no JSON, porque o contrato do frontend usa `id: string`.
+> `Order.id` é número no banco (pedidos #1, #2…) e vai como **texto** no JSON, porque o frontend usa `id: string`.
 
 ## Critérios de aceite
 
-- Os 8 arquivos existem e todos os blocos Mermaid renderizam (sem erro de sintaxe).
+- Os 8 arquivos existem e os diagramas aparecem desenhados no GitHub.
 - Entidades, campos e rotas batem com `frontend/src/types/index.ts` e com a tabela de contrato de `docs/arquitetura.md`.
 
 ## Verificação
 
 ```bash
 ls docs/analise/
-# validar Mermaid (opcional): npx -y @mermaid-js/mermaid-cli -i docs/analise/03-diagrama-de-classes.md -o /tmp/check.md
 ```
+Depois do push, abrir cada arquivo no GitHub e conferir se os diagramas foram desenhados.
 
 ## Commit
 

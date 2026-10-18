@@ -1,4 +1,4 @@
-// Modelos compartilhados com o backend NestJS (alinhar com o Swagger depois)
+// Modelos compartilhados com o backend NestJS (contrato da API)
 
 export type Category = 'sorvetes' | 'casquinhas' | 'picoles' | 'acai' | 'milkshakes';
 

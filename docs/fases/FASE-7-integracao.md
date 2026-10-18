@@ -1,43 +1,44 @@
 # Fase 7 — Integração frontend ↔ backend
 
-**Objetivo:** o frontend passa a usar a API real. O modo mock continua existindo quando `VITE_API_URL` está vazio (útil para apresentar sem backend).
+**Objetivo:** o site passa a usar a API e o banco de verdade. Sem `VITE_API_URL`, ele continua funcionando com os dados de exemplo (útil para apresentar sem o backend ligado).
 
-**Trello:** card 7 — comentário “Conectar com o backend”.
+**Trello:** card 7 — “Conectar com o backend”.
 **Pré-requisitos:** Fases 4, 5 e 6.
 
 ## Checklist
 
 ### Backend
-- [ ] Módulo `contact`: `POST /contato` com `CreateContactDto` (`name`, `email`, `message` ≥ 10 chars) → grava `ContactMessage` → `204`.
+- [ ] Módulo `contact`: `POST /contato` com `CreateContactDto` (`name`, `email`, `message` com 10+ caracteres) → salva em `ContactMessage` → `204`.
 
 ### Frontend
-- [ ] Criar `frontend/.env` com `VITE_API_URL=http://localhost:3000` (já existe `.env.example`).
-- [ ] `src/services/contact.ts` com `sendContact(data)` (mock = `delay()`; real = `POST /contato`) e usar na página `Contato.tsx` no lugar do `TODO`. Mostrar `Alert` de erro se falhar.
-- [ ] Em `src/services/api.ts`: quando a resposta for **401** numa rota autenticada, limpar `token` e `user` do `localStorage` e redirecionar para `/auth/login` (disparar um `window.dispatchEvent(new Event('auth:logout'))` e o `AuthProvider` escuta e faz `logout()`).
-- [ ] No `Checkout.tsx`: se a API responder 400 de produto inexistente/esgotado, mostrar a mensagem e oferecer botão “Revisar carrinho”.
-- [ ] *(Opcional, simples)* Página `/admin/pedidos` só para `role = admin`: lista pedidos e botão “Avançar status”. Exige `GET /admin/pedidos` no backend (admin) e o campo `role` no `User` do login — se fizer, adicionar `role?: 'cliente' | 'admin'` ao tipo `User` e ao mapper `toPublic`.
+- [ ] Criar `frontend/.env` com `VITE_API_URL=http://localhost:3000` (já existe o `.env.example`).
+- [ ] `src/services/contact.ts` com `sendContact(data)` (sem API = só espera; com API = `POST /contato`) e usar na página `Contato.tsx` no lugar do `TODO`. Mostrar o `Alert` de erro se falhar.
+- [ ] Em `src/services/api.ts`: se a API responder **401**, limpar `token` e `user` do `localStorage` e mandar para `/auth/login`.
+- [ ] Em `src/services/api.ts`: se `message` vier como lista (erro de validação do NestJS), juntar os textos com `"; "`.
+- [ ] No `Checkout.tsx`: se a API recusar por produto esgotado ou inexistente, mostrar a mensagem e um botão “Revisar carrinho”.
 
-### Teste ponta a ponta (manual, com front e back rodando)
-- [ ] Cadastrar usuário novo → aparece no banco (`npx prisma studio`).
+### Teste completo (manual, com front e back ligados)
+- [ ] Cadastrar um usuário → ele aparece no banco (`npx prisma studio`).
 - [ ] Sair e entrar de novo.
-- [ ] Adicionar 2 produtos → checkout → página do pedido mostra número vindo do banco.
-- [ ] Minha conta lista o pedido; editar telefone persiste após recarregar.
-- [ ] Contato grava mensagem.
-- [ ] Derrubar o backend e abrir o cardápio → aparece o estado de erro com “Tentar novamente”.
+- [ ] Adicionar 2 produtos → finalizar → a página do pedido mostra o número vindo do banco.
+- [ ] “Minha conta” lista o pedido; editar o telefone continua salvo depois de recarregar.
+- [ ] Mudar o status do pedido no Prisma Studio → a página do pedido mostra o novo status ao recarregar.
+- [ ] Enviar uma mensagem de contato → aparece no banco.
+- [ ] Desligar o backend e abrir o cardápio → aparece a tela de erro com “Tentar novamente”.
 
 ## Critérios de aceite
 
-- Todos os itens do teste ponta a ponta passam.
+- Todos os itens do teste completo funcionam.
 - `npm run build` passa no frontend e no backend.
-- Com `VITE_API_URL` vazio o site continua funcionando em modo mock.
 
 ## Verificação
 
 ```bash
-npm run db:up && npm run back &   # em outro terminal: npm run front
-cd frontend && npm run build && cd ../backend && npm run build
+npm run back      # terminal 1
+npm run front     # terminal 2
+npm run front:build && npm --prefix backend run build
 ```
 
 ## Commit
 
-`feat: integra frontend com a API NestJS e adiciona contato`
+`feat: integra o frontend com a API e adiciona contato`

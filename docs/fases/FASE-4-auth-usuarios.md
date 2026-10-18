@@ -1,50 +1,44 @@
-# Fase 4 — Usuários e autenticação
+# Fase 4 — Usuários e login
 
-**Objetivo:** cadastro, login com JWT e rotas da “minha conta”, seguindo MVC.
+**Objetivo:** cadastro, login com token JWT e as rotas de “minha conta”, seguindo MVC.
 
 **Trello:** card 8 — entidades “login, senha, nome completo, CPF, e-mail, telefone” e “Cadastro/Login”; rotas `/auth/login`, `/auth/cadastro`, `/minha-conta`.
 **Pré-requisitos:** Fase 3.
 
 ## Checklist
 
-- [ ] Instalar: `@nestjs/jwt`, `@nestjs/passport`, `passport`, `passport-jwt`, `bcrypt`; dev: `@types/passport-jwt`, `@types/bcrypt`.
+- [ ] Instalar: `npm i @nestjs/jwt bcryptjs`.
 
 ### Módulo `users` (`src/users/`)
 - [ ] `users.service.ts`
-  - `create(data)` — salva com `passwordHash = await bcrypt.hash(password, 10)`. CPF salvo **só com dígitos**.
-  - `findByEmail(email)`, `findById(id)`.
-  - `update(id, { name?, phone? })`.
-  - `toPublic(user)` — mapper que remove `passwordHash` e `role` e devolve o formato `User` do contrato: `{ id, name, email, cpf, phone }` com CPF formatado `000.000.000-00`.
-- [ ] `users.controller.ts` (rotas `/minha-conta`, protegidas por JWT)
-  - `PATCH /minha-conta` com `UpdateMeDto` (`name?` mín. 2 palavras, `phone?` 10–11 dígitos) → `User`.
-  - (A rota `GET /minha-conta/pedidos` é criada na Fase 6.)
+  - `create(data)` — salva com `passwordHash = await bcrypt.hash(password, 10)`. CPF salvo **só com números**.
+  - `findByEmail(email)`, `findById(id)`, `update(id, { name?, phone? })`.
+  - `toPublic(user)` — devolve só `{ id, name, email, cpf, phone }` (formato `User` do frontend), com o CPF formatado `000.000.000-00`. **Nunca** devolve o hash.
+- [ ] `users.controller.ts` — `PATCH /minha-conta` (com login) recebendo `UpdateMeDto` (`name?`, `phone?`) e devolvendo o `User`.
 
 ### Módulo `auth` (`src/auth/`)
-- [ ] DTOs:
-  - `RegisterDto`: `name` (nome e sobrenome), `cpf` (validar dígitos verificadores com um validator próprio `@IsCpf()` em `src/common/validators/is-cpf.ts`), `email` (`@IsEmail`), `phone` (10–11 dígitos após remover máscara), `password` (mín. 6).
+- [ ] DTOs com `class-validator` e mensagens em português:
+  - `RegisterDto`: `name` (nome e sobrenome), `cpf`, `email`, `phone`, `password` (mínimo 6).
   - `LoginDto`: `email`, `password`.
+- [ ] Validação de CPF numa função simples `isValidCpf()` em `src/common/cpf.ts` (mesma lógica de `frontend/src/utils/format.ts`), chamada no `AuthService.register` → 400 `"CPF inválido."`.
 - [ ] `auth.service.ts`
-  - `register(dto)` → 409 `"Este e-mail já está cadastrado."` / `"Este CPF já está cadastrado."`; retorna `{ token, user }`.
-  - `login(dto)` → 401 `"E-mail ou senha incorretos."` (mesma mensagem para e-mail inexistente e senha errada); retorna `{ token, user }`.
-  - Payload do JWT: `{ sub: user.id, role: user.role }`.
-- [ ] `auth.controller.ts`: `POST /auth/cadastro` (201), `POST /auth/login` (200 — usar `@HttpCode(200)`).
-- [ ] `jwt.strategy.ts`, `jwt-auth.guard.ts`, `roles.guard.ts` + decorator `@Roles('admin')`, decorator `@CurrentUser()` que devolve `{ id, role }`.
-- [ ] Documentar tudo no Swagger (`@ApiTags`, `@ApiBearerAuth`, exemplos nos DTOs).
-
-### Testes
-- [ ] `auth.service.spec.ts`: cadastro com e-mail duplicado → 409; login com senha errada → 401; resposta nunca contém `passwordHash`.
-- [ ] Teste do validator de CPF (válido `529.982.247-25`, inválido `111.111.111-11`).
+  - `register(dto)` → 409 `"Este e-mail já está cadastrado."` ou `"Este CPF já está cadastrado."`; devolve `{ token, user }`.
+  - `login(dto)` → 401 `"E-mail ou senha incorretos."` (mesma mensagem para e-mail que não existe e senha errada); devolve `{ token, user }`.
+  - Token com `jwtService.signAsync({ sub: user.id })`, validade de 7 dias.
+- [ ] `auth.controller.ts`: `POST /auth/cadastro` e `POST /auth/login` (`@HttpCode(200)` no login).
+- [ ] `auth.guard.ts` — guard simples (como na documentação oficial do NestJS): lê o `Authorization: Bearer <token>`, valida com `jwtService.verifyAsync` e coloca `{ id }` em `request.user`; sem token ou token inválido → 401.
+- [ ] `JwtModule.register({ global: true, secret: process.env.JWT_SECRET, signOptions: { expiresIn: '7d' } })` no `AuthModule`.
 
 ## Critérios de aceite
 
-- Cadastro devolve `{ token, user }` no formato exato do tipo `User` do frontend.
-- Login com credenciais corretas devolve token; o token dá acesso a `PATCH /minha-conta`; sem token → 401.
-- Nenhuma resposta contém `password` ou `passwordHash`.
+- Cadastro devolve `{ token, user }` exatamente no formato do tipo `User` do frontend.
+- Login certo devolve token; com o token, `PATCH /minha-conta` funciona; sem token → 401.
+- Nenhuma resposta tem `password` ou `passwordHash`.
 
-## Verificação
+## Verificação (curl ou Postman)
 
 ```bash
-cd backend && npm run test && npm run build
+cd backend && npm run build
 curl -s -X POST localhost:3000/auth/cadastro -H "Content-Type: application/json" \
   -d '{"name":"Maria Silva","cpf":"529.982.247-25","email":"maria@teste.com","phone":"(13) 99999-8888","password":"123456"}'
 curl -s -X POST localhost:3000/auth/login -H "Content-Type: application/json" \
@@ -53,4 +47,4 @@ curl -s -X POST localhost:3000/auth/login -H "Content-Type: application/json" \
 
 ## Commit
 
-`feat(auth): cadastro e login com JWT, rotas de minha conta`
+`feat(auth): cadastro e login com JWT e rotas de minha conta`
