@@ -9,24 +9,24 @@
 
 Diagramas em **Mermaid** dentro do Markdown (o GitHub desenha automaticamente). Tudo em pt-BR, com texto curto e direto — é material para apresentar.
 
-- [ ] `docs/analise/01-requisitos.md`
+- [x] `docs/analise/01-requisitos.md`
   - Problema e público (clientes do litoral de SP, entrega em até 10 km).
   - **Requisitos funcionais** (RF01…): cadastro, login, ver cardápio, filtrar por categoria, ver produto, carrinho, finalizar pedido com endereço e forma de pagamento, acompanhar pedido, histórico em “minha conta”, editar dados, enviar mensagem de contato.
   - **Requisitos não funcionais** (RNF01…): funciona bem no celular, tema escuro, acessível (contraste e foco visível), senha guardada com hash, login com token, textos em pt-BR.
   - **Escopo do MVP** × **Fora do escopo** (painel administrativo, pagamento real pelo PagSeguro, cupons, avaliações, recomendação com IA, app mobile).
-- [ ] `docs/analise/02-casos-de-uso.md` — diagrama (flowchart Mermaid com os atores Visitante e Cliente) + tabela dos casos de uso, detalhando “Fazer pedido” (fluxo principal e alternativos: carrinho vazio, não logado, campo de endereço faltando).
-- [ ] `docs/analise/03-diagrama-de-classes.md` — `classDiagram` com:
+- [x] `docs/analise/02-casos-de-uso.md` — diagrama (flowchart Mermaid com os atores Visitante e Cliente) + tabela dos casos de uso, detalhando “Fazer pedido” (fluxo principal e alternativos: carrinho vazio, não logado, campo de endereço faltando).
+- [x] `docs/analise/03-diagrama-de-classes.md` — `classDiagram` com:
   - Domínio: `User`, `Product`, `Order`, `OrderItem`, `ContactMessage` e os enums `Category`, `OrderStatus`, `PaymentMethod`.
   - Camadas MVC de cada módulo: `XController` → `XService` → `PrismaService`, e os DTOs (`RegisterDto`, `LoginDto`, `UpdateMeDto`, `CreateOrderDto`, `CreateContactDto`).
-- [ ] `docs/analise/04-modelo-de-dados.md` — `erDiagram` igual ao schema abaixo + uma frase explicando cada tabela e cada relacionamento.
-- [ ] `docs/analise/05-bpmn-pedido.md` — processo “Pedido de sorvete” com raias Cliente, Sistema e Sorveteria: escolher produtos → entrar/cadastrar → informar endereço → escolher pagamento → pedido recebido → preparando → saiu para entrega → entregue. Incluir as decisões “está logado?” e “dentro do horário de funcionamento?”. Usar `flowchart LR` com um `subgraph` por raia. Nota no fim: *se for exigida a notação BPMN oficial, redesenhar em https://demo.bpmn.io seguindo este fluxo.*
-- [ ] `docs/analise/06-arquitetura-mvc.md`
+- [x] `docs/analise/04-modelo-de-dados.md` — `erDiagram` igual ao schema abaixo + uma frase explicando cada tabela e cada relacionamento.
+- [x] `docs/analise/05-bpmn-pedido.md` — processo “Pedido de sorvete” com raias Cliente, Sistema e Sorveteria: escolher produtos → entrar/cadastrar → informar endereço → escolher pagamento → pedido recebido → preparando → saiu para entrega → entregue. Incluir as decisões “está logado?” e “dentro do horário de funcionamento?”. Usar `flowchart LR` com um `subgraph` por raia. Nota no fim: *se for exigida a notação BPMN oficial, redesenhar em https://demo.bpmn.io seguindo este fluxo.*
+- [x] `docs/analise/06-arquitetura-mvc.md`
   - Diagrama do caminho de uma requisição: tela React → HTTP/JSON → Controller → Service → PrismaService → MySQL, e a volta.
   - Tabela “parte do MVC → arquivos do NestJS” (igual à de `docs/arquitetura.md`).
   - Árvore de pastas do `backend/src` (ver Fase 3).
-- [ ] `docs/analise/07-padroes-de-projeto.md` — para cada padrão, 2–3 linhas e um trecho curto de código mostrando onde ele aparece:
+- [x] `docs/analise/07-padroes-de-projeto.md` — para cada padrão, 2–3 linhas e um trecho curto de código mostrando onde ele aparece:
   **MVC**, **Injeção de dependência** (o Nest entrega o service pronto no controller), **Módulos**, **DTO**, **Service como camada de acesso a dados** (parecido com Repository), **Singleton** (`PrismaService`, uma conexão só), **Guard** (`AuthGuard` bloqueia rotas sem login) e **Mapper** (converte o registro do banco no JSON que o frontend espera).
-- [ ] `docs/analise/08-decisoes.md` — decisões no formato contexto → decisão → consequência:
+- [x] `docs/analise/08-decisoes.md` — decisões no formato contexto → decisão → consequência:
   1. **MySQL** como único banco (o MongoDB citado na reunião inicial ficou de fora para manter o projeto simples).
   2. Banco instalado direto no computador, **sem Docker** (no Fedora, MariaDB, compatível com MySQL).
   3. **Prisma** para acessar o banco sem escrever SQL na mão.
