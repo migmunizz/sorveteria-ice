@@ -12,7 +12,7 @@ Projeto acadêmico: site de vendas de uma sorveteria do litoral de SP (entrega e
 | Backend | NestJS + TypeScript, arquitetura **MVC** |
 | Banco de dados | **MySQL 8**, instalado direto no computador |
 | Acesso ao banco | Prisma 6 (ORM) |
-| Login | Senha com `bcryptjs` + token JWT com `@nestjs/jwt` e um guard simples |
+| Login | Simples: confere e-mail e senha (hash com `bcryptjs`) e devolve o usuário. **Sem JWT, sem guard, sem módulo auth** |
 | Validação | `class-validator` nos DTOs (padrão do NestJS) |
 | Testar a API | Postman, Thunder Client ou `curl` |
 | Pagamento | Simulado (Pix, cartão ou dinheiro na entrega) |
@@ -53,29 +53,29 @@ npm run back                                   # http://localhost:3000
 
 ## MVC no NestJS
 
-- **Model** → `prisma/schema.prisma` (tabelas) + `*.service.ts` (regras de negócio e acesso ao banco pelo `PrismaService`).
+- **Model** → `prisma/schema.prisma` (tabelas) + `*.repository.ts` (acesso ao banco pelo `PrismaService`) + `*.service.ts` (regras de negócio).
 - **View** → o JSON que a API devolve e que o React mostra na tela.
 - **Controller** → `*.controller.ts`: recebe a requisição, valida o DTO, chama o service e devolve a resposta. **Nenhuma regra de negócio no controller.**
 
-Um módulo por recurso em `backend/src/<recurso>/`, cada um com `module`, `controller`, `service` e `dto/`: `auth`, `users`, `products`, `orders`, `contact`.
+Um módulo por recurso em `backend/src/<recurso>/`, cada um com `module`, `controller`, `service`, `repository` e `dto/`: `users`, `products`, `orders`, `contact`. Quem fala com o banco é só o **repository** (usa o `PrismaService`); o service tem as regras; o controller só recebe e responde.
 
 ## Contrato frontend ↔ backend (não quebrar)
 
 A fonte da verdade do JSON é `frontend/src/types/index.ts`. O backend devolve exatamente esses formatos.
 
-| Método | Rota | Login? | Resposta |
+| Método | Rota | Usuário | Resposta |
 |---|---|---|---|
-| POST | `/auth/cadastro` | – | `{ token, user: User }` |
-| POST | `/auth/login` | – | `{ token, user: User }` |
+| POST | `/auth/cadastro` | – | `{ user: User }` |
+| POST | `/auth/login` | – | `{ user: User }` |
 | GET | `/cardapio` | – | `Flavor[]` |
 | GET | `/produto/:id` | – | `Flavor` (404 se não existir) |
-| POST | `/checkout` | sim | `Order` |
-| GET | `/pedido/:id` | sim | `Order` (só do próprio usuário) |
-| GET | `/minha-conta/pedidos` | sim | `Order[]` (mais recentes primeiro) |
-| PATCH | `/minha-conta` | sim | `User` |
+| POST | `/checkout` | `userId` no corpo | `Order` |
+| GET | `/pedido/:id?userId=...` | `userId` na query | `Order` (404 se não for do usuário) |
+| GET | `/minha-conta/:userId/pedidos` | – | `Order[]` (mais recentes primeiro) |
+| PATCH | `/minha-conta/:userId` | – | `User` |
 | POST | `/contato` | – | `204` |
 
-Rotas com login recebem o cabeçalho `Authorization: Bearer <token>`. Erros devolvem `{ message }` em português com o status HTTP certo (400, 401, 404, 409); o formato padrão de erro do NestJS já faz isso.
+Não há token: o React guarda o `user` devolvido no login e manda o `userId` quando precisa (checkout, pedidos, minha conta). Erros devolvem `{ message }` em português com o status HTTP certo (400, 401, 404, 409); o formato padrão de erro do NestJS já faz isso.
 
 ## Regras de código
 

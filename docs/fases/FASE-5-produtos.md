@@ -10,7 +10,9 @@
 - [ ] `prisma/seed.ts` com os **12 produtos de `frontend/src/mocks/flavors.ts`**, com os **mesmos ids `"1"` a `"12"`** (assim carrinhos já salvos no navegador continuam funcionando). Usar `upsert` para poder rodar o seed mais de uma vez.
 - [ ] No `package.json` do backend: `"prisma": { "seed": "ts-node prisma/seed.ts" }`.
 - [ ] Módulo `products` (`src/products/`):
-  - `products.service.ts`: `findAll(category?)` ordenado por categoria e nome; `findOne(id)` → 404 `"Produto não encontrado"`.
+  - `products.repository.ts`: `findAll(category?)` (ordenado por categoria e nome) e `findById(id)` com o `PrismaService`.
+  - `products.service.ts`: usa o repository; `findOne(id)` → 404 `"Produto não encontrado"`.
+  - `dto/`: `ProductQueryDto` (`categoria?` validada pelo enum `Category`) e `ProductResponseDto` (formato `Flavor`).
   - Função `toFlavor(product)` que devolve o formato `Flavor` do frontend, com `price` como **número** (o Prisma devolve `Decimal`).
   - `products.controller.ts`: `GET /cardapio` (aceita `?categoria=acai`) e `GET /produto/:id`.
 

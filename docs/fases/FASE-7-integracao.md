@@ -13,7 +13,7 @@
 ### Frontend
 - [ ] Criar `frontend/.env` com `VITE_API_URL=http://localhost:3000` (já existe o `.env.example`).
 - [ ] `src/services/contact.ts` com `sendContact(data)` (sem API = só espera; com API = `POST /contato`) e usar na página `Contato.tsx` no lugar do `TODO`. Mostrar o `Alert` de erro se falhar.
-- [ ] Em `src/services/api.ts`: se a API responder **401**, limpar `token` e `user` do `localStorage` e mandar para `/auth/login`.
+- [ ] Adaptar o frontend à API sem token: `login`/`cadastro` passam a receber `{ user }`; remover o uso de `token` (cabeçalho `Authorization`) em `src/services/`; enviar o `user.id` no checkout (`userId` no corpo), em `GET /pedido/:id?userId=` e em `/minha-conta/:userId/...`. O modo mock continua igual.
 - [ ] Em `src/services/api.ts`: se `message` vier como lista (erro de validação do NestJS), juntar os textos com `"; "`.
 - [ ] No `Checkout.tsx`: se a API recusar por produto esgotado ou inexistente, mostrar a mensagem e um botão “Revisar carrinho”.
 

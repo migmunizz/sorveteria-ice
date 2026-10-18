@@ -36,7 +36,6 @@ Teste: `mysql -u sorveteria -psorveteria123 -e "SHOW DATABASES;"` deve listar `s
 - [x] `backend/.env.example` e `backend/.env`:
   ```
   DATABASE_URL="mysql://sorveteria:sorveteria123@localhost:3306/sorveteria"
-  JWT_SECRET="troque-por-um-texto-grande-e-secreto"
   DELIVERY_FEE=6
   FRONTEND_URL="http://localhost:5173"
   PORT=3000

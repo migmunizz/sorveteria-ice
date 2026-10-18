@@ -1,39 +1,43 @@
 # Fase 4 — Usuários e login
 
-**Objetivo:** cadastro, login com token JWT e as rotas de “minha conta”, seguindo MVC.
+**Objetivo:** cadastro, login e “minha conta” com o padrão **controller → service → repository → DTO**, sem token e sem módulo de autenticação.
 
 **Trello:** card 8 — entidades “login, senha, nome completo, CPF, e-mail, telefone” e “Cadastro/Login”; rotas `/auth/login`, `/auth/cadastro`, `/minha-conta`.
 **Pré-requisitos:** Fase 3.
 
+## Regras desta fase
+
+- **Não usar** JWT, guard, Passport nem módulo `auth`. Tudo fica no módulo `users`.
+- Única biblioteca nova: `bcryptjs` (a senha nunca é salva em texto puro).
+- O login só confere e-mail e senha e devolve o usuário. O frontend guarda esse usuário e manda o `id` quando precisar.
+
 ## Checklist
 
-- [ ] Instalar: `npm i @nestjs/jwt bcryptjs`.
+- [x] Instalar: `npm i bcryptjs`.
 
 ### Módulo `users` (`src/users/`)
-- [ ] `users.service.ts`
-  - `create(data)` — salva com `passwordHash = await bcrypt.hash(password, 10)`. CPF salvo **só com números**.
-  - `findByEmail(email)`, `findById(id)`, `update(id, { name?, phone? })`.
-  - `toPublic(user)` — devolve só `{ id, name, email, cpf, phone }` (formato `User` do frontend), com o CPF formatado `000.000.000-00`. **Nunca** devolve o hash.
-- [ ] `users.controller.ts` — `PATCH /minha-conta` (com login) recebendo `UpdateMeDto` (`name?`, `phone?`) e devolvendo o `User`.
-
-### Módulo `auth` (`src/auth/`)
-- [ ] DTOs com `class-validator` e mensagens em português:
-  - `RegisterDto`: `name` (nome e sobrenome), `cpf`, `email`, `phone`, `password` (mínimo 6).
-  - `LoginDto`: `email`, `password`.
-- [ ] Validação de CPF numa função simples `isValidCpf()` em `src/common/cpf.ts` (mesma lógica de `frontend/src/utils/format.ts`), chamada no `AuthService.register` → 400 `"CPF inválido."`.
-- [ ] `auth.service.ts`
-  - `register(dto)` → 409 `"Este e-mail já está cadastrado."` ou `"Este CPF já está cadastrado."`; devolve `{ token, user }`.
-  - `login(dto)` → 401 `"E-mail ou senha incorretos."` (mesma mensagem para e-mail que não existe e senha errada); devolve `{ token, user }`.
-  - Token com `jwtService.signAsync({ sub: user.id })`, validade de 7 dias.
-- [ ] `auth.controller.ts`: `POST /auth/cadastro` e `POST /auth/login` (`@HttpCode(200)` no login).
-- [ ] `auth.guard.ts` — guard simples (como na documentação oficial do NestJS): lê o `Authorization: Bearer <token>`, valida com `jwtService.verifyAsync` e coloca `{ id }` em `request.user`; sem token ou token inválido → 401.
-- [ ] `JwtModule.register({ global: true, secret: process.env.JWT_SECRET, signOptions: { expiresIn: '7d' } })` no `AuthModule`.
+- [x] `dto/register.dto.ts` — `RegisterDto` (`class-validator`, mensagens em português): `name` (nome e sobrenome), `cpf`, `email`, `phone`, `password` (mínimo 6).
+- [x] `dto/login.dto.ts` — `LoginDto`: `email`, `password`.
+- [x] `dto/update-user.dto.ts` — `UpdateUserDto`: `name?`, `phone?`.
+- [x] `dto/user-response.dto.ts` — `UserResponseDto`: `{ id, name, email, cpf, phone }` (formato `User` do frontend, CPF formatado `000.000.000-00`). **Nunca** inclui o hash.
+- [x] `users.repository.ts` — só acesso ao banco com o `PrismaService`: `create`, `findByEmail`, `findByCpf`, `findById`, `update`.
+- [x] `users.service.ts` — usa o repository:
+  - `register(dto)`: valida o CPF com `isValidCpf` (400 `"CPF inválido."`), 409 `"Este e-mail já está cadastrado."` ou `"Este CPF já está cadastrado."`, salva `passwordHash = await bcrypt.hash(password, 10)` e o CPF **só com números**; devolve `UserResponseDto`.
+  - `login(dto)`: 401 `"E-mail ou senha incorretos."` (mesma mensagem para e-mail inexistente e senha errada); devolve `UserResponseDto`.
+  - `update(id, dto)`: 404 `"Usuário não encontrado"` se não existir; devolve `UserResponseDto`.
+- [x] `users.controller.ts` — só recebe, chama o service e responde:
+  - `POST /auth/cadastro` → `{ user }`
+  - `POST /auth/login` → `{ user }` (`@HttpCode(200)`)
+  - `PATCH /minha-conta/:userId` → `User` (o usuário atualizado, sem envolver em `{ user }`)
+- [x] `users.module.ts` registrado no `AppModule`.
+- [x] `src/common/cpf.ts` com `isValidCpf`, `sanitizeCpf` e `formatCpf` (mesma lógica de `frontend/src/utils/format.ts`).
 
 ## Critérios de aceite
 
-- Cadastro devolve `{ token, user }` exatamente no formato do tipo `User` do frontend.
-- Login certo devolve token; com o token, `PATCH /minha-conta` funciona; sem token → 401.
+- Cadastro e login devolvem `{ user }` no formato do tipo `User` do frontend.
+- E-mail ou CPF repetido → 409; CPF inválido → 400; senha errada → 401.
 - Nenhuma resposta tem `password` ou `passwordHash`.
+- Não existe pasta `auth/`, nem `@nestjs/jwt`, nem `AuthGuard` no projeto.
 
 ## Verificação (curl ou Postman)
 
@@ -43,8 +47,10 @@ curl -s -X POST localhost:3000/auth/cadastro -H "Content-Type: application/json"
   -d '{"name":"Maria Silva","cpf":"529.982.247-25","email":"maria@teste.com","phone":"(13) 99999-8888","password":"123456"}'
 curl -s -X POST localhost:3000/auth/login -H "Content-Type: application/json" \
   -d '{"email":"maria@teste.com","password":"123456"}'
+curl -s -X PATCH localhost:3000/minha-conta/ID_DO_USUARIO -H "Content-Type: application/json" \
+  -d '{"phone":"(13) 98888-7777"}'
 ```
 
 ## Commit
 
-`feat(auth): cadastro e login com JWT e rotas de minha conta`
+`feat(users): cadastro, login e minha conta com service e repository`
