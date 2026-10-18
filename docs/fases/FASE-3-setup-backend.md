@@ -5,14 +5,12 @@
 **Trello:** card 8 “Backend - Nestjs” (definir banco; model, services e controllers).
 **Pré-requisitos:** Fase 2 (schema definido).
 
-## Passo manual (o autor faz antes): instalar o banco no Fedora
-
-No Fedora o MySQL vem como **MariaDB**, que é compatível com MySQL e funciona igual com o Prisma.
+## Passo manual (o autor faz antes): ligar o MySQL no Fedora
 
 ```bash
-sudo dnf install mariadb-server
-sudo systemctl enable --now mariadb
-sudo mysql
+sudo dnf install mysql-server        # se ainda não estiver instalado
+sudo systemctl enable --now mysqld   # liga agora e a cada boot
+sudo mysql -u root                   # se pedir senha: sudo mysql -u root -p
 ```
 
 Dentro do `mysql`, criar o banco e um usuário só para o projeto:

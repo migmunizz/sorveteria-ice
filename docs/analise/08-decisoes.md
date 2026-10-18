@@ -11,7 +11,7 @@ Formato: contexto → decisão → consequência.
 ## 2. Banco instalado direto no computador, sem Docker
 
 **Contexto:** o projeto prioriza simplicidade e poucas ferramentas.
-**Decisão:** instalar o MySQL/MariaDB direto no sistema (no Fedora, o pacote `mariadb-server`, compatível com MySQL), sem Docker/docker-compose.
+**Decisão:** instalar o MySQL 8 direto no sistema (no Fedora, o pacote `mysql-server`), sem Docker/docker-compose.
 **Consequência:** não é preciso aprender Docker para rodar o projeto; em compensação, o ambiente depende do banco já estar instalado e ligado na máquina de quem for rodar.
 
 ## 3. Prisma para acessar o banco

@@ -6,7 +6,7 @@ Plataforma web de vendas de sorvetes: cardápio, carrinho, checkout, acompanhame
 |---|---|
 | Frontend | React 18 + TypeScript + Vite + React Router |
 | Backend (Sprint II) | NestJS + TypeScript (MVC) + Prisma |
-| Banco | MySQL (MariaDB no Fedora), instalado direto no computador |
+| Banco | MySQL 8, instalado direto no computador |
 | Pagamento | Simulado (Pix, cartão, dinheiro) |
 | Código | GitHub |
 | Metodologia | Scrum / Kanban (Trello) |

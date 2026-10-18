@@ -28,7 +28,7 @@ Diagramas em **Mermaid** dentro do Markdown (o GitHub desenha automaticamente). 
   **MVC**, **Injeção de dependência** (o Nest entrega o service pronto no controller), **Módulos**, **DTO**, **Service como camada de acesso a dados** (parecido com Repository), **Singleton** (`PrismaService`, uma conexão só), **Guard** (`AuthGuard` bloqueia rotas sem login) e **Mapper** (converte o registro do banco no JSON que o frontend espera).
 - [x] `docs/analise/08-decisoes.md` — decisões no formato contexto → decisão → consequência:
   1. **MySQL** como único banco (o MongoDB citado na reunião inicial ficou de fora para manter o projeto simples).
-  2. Banco instalado direto no computador, **sem Docker** (no Fedora, MariaDB, compatível com MySQL).
+  2. MySQL instalado direto no computador, **sem Docker**.
   3. **Prisma** para acessar o banco sem escrever SQL na mão.
   4. Login com **JWT** e senha com hash (`bcryptjs`).
   5. Preço sempre recalculado no backend.

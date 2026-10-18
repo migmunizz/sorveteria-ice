@@ -10,7 +10,7 @@ Projeto acadêmico: site de vendas de uma sorveteria do litoral de SP (entrega e
 |---|---|
 | Frontend | React 18 + TypeScript + Vite + React Router, CSS puro com variáveis |
 | Backend | NestJS + TypeScript, arquitetura **MVC** |
-| Banco de dados | **MySQL** (MariaDB no Fedora, que é compatível), instalado direto no computador |
+| Banco de dados | **MySQL 8**, instalado direto no computador |
 | Acesso ao banco | Prisma 6 (ORM) |
 | Login | Senha com `bcryptjs` + token JWT com `@nestjs/jwt` e um guard simples |
 | Validação | `class-validator` nos DTOs (padrão do NestJS) |
