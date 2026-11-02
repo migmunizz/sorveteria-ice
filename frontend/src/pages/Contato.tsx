@@ -4,7 +4,7 @@ import { Input, Textarea } from '../components/ui/Input';
 import { Button } from '../components/ui/Button';
 import { Alert } from '../components/ui/Alert';
 import { site } from '../config/site';
-import { delay } from '../services/api';
+import { sendContact } from '../services/contact';
 import { isValidEmail } from '../utils/format';
 
 export default function Contato() {
@@ -12,6 +12,7 @@ export default function Contato() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [apiError, setApiError] = useState('');
 
   async function submit(e: FormEvent) {
     e.preventDefault();
@@ -22,10 +23,16 @@ export default function Contato() {
     setErrors(err);
     if (Object.keys(err).length) return;
     setLoading(true);
-    await delay(); // TODO: POST /contato no backend
-    setLoading(false);
-    setSent(true);
-    setForm({ name: '', email: '', message: '' });
+    setApiError('');
+    try {
+      await sendContact(form);
+      setSent(true);
+      setForm({ name: '', email: '', message: '' });
+    } catch (e) {
+      setApiError((e as Error).message);
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -37,6 +44,7 @@ export default function Contato() {
       <div className="two-col">
         <form className="card card--pad" onSubmit={submit} noValidate>
           {sent && <Alert type="success">Mensagem enviada! Respondemos em breve.</Alert>}
+          {apiError && <Alert type="error">{apiError}</Alert>}
           <Input label="Nome" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} error={errors.name} />
           <Input label="E-mail" type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} error={errors.email} />
           <Textarea label="Mensagem" value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} error={errors.message} />

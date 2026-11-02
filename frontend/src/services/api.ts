@@ -9,18 +9,18 @@ export class ApiError extends Error {
 }
 
 export async function api<T>(path: string, options: RequestInit = {}): Promise<T> {
-  const token = localStorage.getItem('token');
   const res = await fetch(`${API_URL}${path}`, {
     ...options,
     headers: {
       'Content-Type': 'application/json',
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
       ...options.headers,
     },
   });
   if (!res.ok) {
     const body = await res.json().catch(() => ({}));
-    throw new ApiError(res.status, body.message ?? 'Algo deu errado. Tente novamente.');
+    // O NestJS devolve uma lista de mensagens quando a validação do DTO falha.
+    const message = Array.isArray(body.message) ? body.message.join('; ') : body.message;
+    throw new ApiError(res.status, message ?? 'Algo deu errado. Tente novamente.');
   }
   return res.status === 204 ? (undefined as T) : res.json();
 }

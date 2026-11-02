@@ -17,8 +17,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try { return JSON.parse(localStorage.getItem('user') ?? 'null'); } catch { return null; }
   });
 
-  const save = (token: string, u: User) => {
-    localStorage.setItem('token', token);
+  const save = (u: User) => {
     localStorage.setItem('user', JSON.stringify(u));
     setUserState(u);
   };
@@ -26,22 +25,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const value: AuthState = {
     user,
     login: async (email, password) => {
-      const r = await authService.login(email, password);
-      save(r.token, r.user);
+      save(await authService.login(email, password));
     },
     register: async (data) => {
-      const r = await authService.register(data);
-      save(r.token, r.user);
+      save(await authService.register(data));
     },
     logout: () => {
-      localStorage.removeItem('token');
       localStorage.removeItem('user');
       setUserState(null);
     },
-    setUser: (u) => {
-      localStorage.setItem('user', JSON.stringify(u));
-      setUserState(u);
-    },
+    setUser: save,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

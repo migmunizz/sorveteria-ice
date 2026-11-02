@@ -1,4 +1,5 @@
 import { useLocation, useParams } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import { useAsync } from '../hooks/useAsync';
 import { getOrder } from '../services/orders';
 import { Mascot } from '../components/Mascot';
@@ -21,8 +22,9 @@ const paymentLabel = { pix: 'Pix', cartao: 'Cartão', dinheiro: 'Dinheiro' };
 
 export default function Pedido() {
   const { id = '' } = useParams();
+  const { user } = useAuth();
   const { state } = useLocation() as { state?: { justCreated?: boolean } };
-  const { data: o, loading, error, retry } = useAsync(() => getOrder(id), [id]);
+  const { data: o, loading, error, retry } = useAsync(() => getOrder(id, user!.id), [id, user!.id]);
 
   return (
     <div className="container section page-title">

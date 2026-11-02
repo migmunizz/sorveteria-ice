@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { ContactModule } from './contact/contact.module.js';
 import { HealthController } from './health/health.controller.js';
 import { OrdersModule } from './orders/orders.module.js';
 import { PrismaModule } from './prisma/prisma.module.js';
@@ -13,6 +14,7 @@ import { UsersModule } from './users/users.module.js';
     UsersModule,
     ProductsModule,
     OrdersModule,
+    ContactModule,
   ],
   controllers: [HealthController],
 })

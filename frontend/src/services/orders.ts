@@ -22,17 +22,17 @@ export async function createOrder(userId: string, data: CreateOrderData): Promis
     write([order, ...read()]);
     return order;
   }
-  return api<Order>('/checkout', { method: 'POST', body: JSON.stringify(data) });
+  return api<Order>('/checkout', { method: 'POST', body: JSON.stringify({ userId, ...data }) });
 }
 
-export async function getOrder(id: string): Promise<Order> {
+export async function getOrder(id: string, userId: string): Promise<Order> {
   if (USE_MOCK) {
     await delay(300);
-    const o = read().find((x) => x.id === id);
+    const o = read().find((x) => x.id === id && x.userId === userId);
     if (!o) throw new ApiError(404, 'Pedido não encontrado');
     return o;
   }
-  return api<Order>(`/pedido/${id}`);
+  return api<Order>(`/pedido/${id}?userId=${userId}`);
 }
 
 export async function getMyOrders(userId: string): Promise<Order[]> {
@@ -40,5 +40,5 @@ export async function getMyOrders(userId: string): Promise<Order[]> {
     await delay(300);
     return read().filter((x) => x.userId === userId);
   }
-  return api<Order[]>('/minha-conta/pedidos');
+  return api<Order[]>(`/minha-conta/${userId}/pedidos`);
 }

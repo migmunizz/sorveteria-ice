@@ -4,8 +4,9 @@ import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
 import { createOrder } from '../services/orders';
+import { ApiError } from '../services/api';
 import { Input } from '../components/ui/Input';
-import { Button } from '../components/ui/Button';
+import { Button, ButtonLink } from '../components/ui/Button';
 import { Alert } from '../components/ui/Alert';
 import { PriceBadge } from '../components/ui/Badge';
 import { formatPrice } from '../utils/format';
@@ -28,6 +29,7 @@ export default function Checkout() {
   const [errors, setErrors] = useState<Partial<Record<keyof Address, string>>>({});
   const [loading, setLoading] = useState(false);
   const [apiError, setApiError] = useState('');
+  const [cartIssue, setCartIssue] = useState(false);
 
   if (items.length === 0) return <Navigate to="/carrinho" replace />;
 
@@ -44,6 +46,7 @@ export default function Checkout() {
 
     setLoading(true);
     setApiError('');
+    setCartIssue(false);
     try {
       // Pagamento simulado: a forma escolhida só é registrada no pedido.
       const order = await createOrder(user!.id, { items, payment, address });
@@ -52,6 +55,8 @@ export default function Checkout() {
       navigate(`/pedido/${order.id}`, { state: { justCreated: true } });
     } catch (e) {
       setApiError((e as Error).message);
+      // Erro 400 no checkout é sempre sobre o carrinho (produto esgotado ou removido do cardápio).
+      setCartIssue(e instanceof ApiError && e.status === 400);
     } finally {
       setLoading(false);
     }
@@ -62,7 +67,16 @@ export default function Checkout() {
       <h1>Checkout</h1>
       <form className="two-col" onSubmit={submit} noValidate>
         <div className="card card--pad">
-          {apiError && <Alert type="error">{apiError}</Alert>}
+          {apiError && (
+            <Alert type="error">
+              {apiError}
+              {cartIssue && (
+                <div style={{ marginTop: 'var(--space-2)' }}>
+                  <ButtonLink to="/carrinho" variant="secondary" size="sm">Revisar carrinho</ButtonLink>
+                </div>
+              )}
+            </Alert>
+          )}
           <h3>Endereço de entrega</h3>
           <p className="muted small">Entregamos em até {site.deliveryRadiusKm} km da loja.</p>
           <Input label="Rua" value={address.street} onChange={set('street')} error={errors.street} autoComplete="address-line1" />
