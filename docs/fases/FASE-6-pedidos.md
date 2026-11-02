@@ -7,13 +7,13 @@
 
 ## Checklist
 
-- [ ] `CreateOrderDto`:
+- [x] `CreateOrderDto`:
   - `userId`: texto, obrigatório (o service confere se o usuário existe → 400 `"Usuário não encontrado"`).
   - `items`: lista **não vazia** de `{ flavorId, quantity }` (quantidade de 1 a 20). O frontend também manda `name`, `price` e `category` — declarar como opcionais e **ignorar**.
   - `payment`: `pix`, `cartao` ou `dinheiro`.
   - `address`: `{ street, number, district, complement? }`, os três primeiros obrigatórios.
-- [ ] `orders.repository.ts`: `create(data)` (pedido + itens de uma vez), `findById(id)` e `findAllByUser(userId)` com o `PrismaService`; o service nunca usa o Prisma direto.
-- [ ] `orders.service.ts`:
+- [x] `orders.repository.ts`: `create(data)` (pedido + itens de uma vez), `findById(id)` e `findAllByUser(userId)` com o `PrismaService`; o service nunca usa o Prisma direto.
+- [x] `orders.service.ts`:
   - `create(dto)`:
     1. Buscar os produtos no banco; se algum não existir → 400 `"Produto não encontrado"`; se estiver esgotado → 400 `"<nome> está esgotado."`.
     2. Calcular o `subtotal` com o **preço do banco**, somar a taxa `DELIVERY_FEE` e gerar o `total`.
@@ -21,11 +21,11 @@
   - `findOne(id, userId)` → 404 se não existir **ou** se for de outro usuário.
   - `findAllByUser(userId)` → mais recentes primeiro.
   - Função `toOrder(order)` que devolve o formato `Order` do frontend: `id` como texto, `items` como `CartItem[]` (`flavorId` = `productId`), valores como número, `address` montado com as colunas e `createdAt` em ISO.
-- [ ] `orders.controller.ts`:
+- [x] `orders.controller.ts`:
   - `POST /checkout` → `Order`.
   - `GET /pedido/:id?userId=...` → `Order`.
   - `GET /minha-conta/:userId/pedidos` → `Order[]`.
-- [ ] Pagamento: só guardar a forma escolhida (simulado). O pedido nasce como `recebido`. Para mostrar o andamento na apresentação, mudar o `status` pelo `npx prisma studio`.
+- [x] Pagamento: só guardar a forma escolhida (simulado). O pedido nasce como `recebido`. Para mostrar o andamento na apresentação, mudar o `status` pelo `npx prisma studio`.
 
 ## Critérios de aceite
 
