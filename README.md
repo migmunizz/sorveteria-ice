@@ -1,95 +1,143 @@
 # 🍦 Sorveteria ai-ce
 
+> Projeto acadêmico. Dados, produtos, endereço e imagens são **fictícios** — não representa uma sorveteria real.
+
 Plataforma web de vendas de sorvetes: cardápio, carrinho, checkout, acompanhamento de pedidos e conta do usuário.
 
-| Camada | Stack |
+## Disciplina
+
+- **Disciplina:** Desenvolvimento Web II
+- **Professor:** Bruno Zolotareff dos Santos <!-- PENDENTE: titulação (ex.: Dr., Me.) — o autor preenche se souber -->
+- **Integrante:** Miguel Rienzi Muniz
+
+## O projeto
+
+A sorveteria é um pequeno negócio fictício do litoral de São Paulo que hoje "vende só por WhatsApp". O sistema dá um canal de vendas online: o cliente vê o cardápio, monta o carrinho, finaliza o pedido com endereço e forma de pagamento (Pix, cartão ou dinheiro na entrega, todos simulados) e acompanha o status até a entrega — tudo pensado para uso no celular.
+
+Escopo do MVP: cadastro e login simples (sem token — o backend confere e-mail/senha e devolve o usuário), cardápio público com filtro por categoria, carrinho, checkout com preço calculado no servidor, histórico de pedidos em "minha conta" e um formulário de contato.
+
+![Tela inicial do site](assets/referencias/tela-home.png)
+
+## Links
+
+- **Repositório:** https://github.com/migmunizz/sorveteria-ice
+- **Aplicação:** não publicada — na apresentação, o sistema completo (frontend + backend + MySQL) roda localmente pelos comandos abaixo. *(Se o frontend for publicado na Vercel depois, o link entra aqui — ver `frontend/vercel.json`.)*
+
+## Stack
+
+| Camada | Tecnologia |
 |---|---|
-| Frontend | React 18 + TypeScript + Vite + React Router |
-| Backend (Sprint II) | NestJS + TypeScript (MVC) + Prisma |
-| Banco | MySQL 8, instalado direto no computador |
-| Pagamento | Simulado (Pix, cartão, dinheiro) |
+| Frontend | React 18 + TypeScript + Vite + React Router, CSS puro com variáveis |
+| Backend | NestJS + TypeScript, arquitetura MVC |
+| Banco de dados | MySQL 8, instalado direto no computador |
+| Acesso ao banco | Prisma 6 (ORM) |
+| Login | Simples: confere e-mail e senha (hash com `bcryptjs`), sem JWT |
+| Validação | `class-validator` nos DTOs do NestJS |
+| Pagamento | Simulado (Pix, cartão ou dinheiro na entrega) |
+| Gestão | Scrum/Kanban no Trello (`docs/trello.md`) |
 | Código | GitHub |
-| Metodologia | Scrum / Kanban (Trello) |
 
----
+Detalhes de arquitetura, contrato da API e padrões de código: [`docs/arquitetura.md`](docs/arquitetura.md).
 
-## Fase 1 — Frontend (pronto)
+## Como rodar localmente (do zero)
 
-### Como rodar
+### 1. Banco de dados (MySQL)
+
+Precisa do MySQL instalado e rodando no computador (`sudo systemctl start mysqld` no Fedora). Depois, criar o banco e um usuário só para o projeto:
+
+```sql
+mysql -u root -p
+CREATE DATABASE sorveteria;
+CREATE USER 'sorveteria'@'localhost' IDENTIFIED BY 'sorveteria123';
+GRANT ALL PRIVILEGES ON *.* TO 'sorveteria'@'localhost';
+FLUSH PRIVILEGES;
+EXIT;
+```
+
+(O `*.*` é necessário porque o Prisma cria um banco temporário ao gerar as migrações. Se usar outro usuário/senha, ajuste o `DATABASE_URL` no passo 3.)
+
+### 2. Clonar e instalar
 
 ```bash
-cd frontend
-npm install
-npm run dev        # http://localhost:5173
+git clone https://github.com/migmunizz/sorveteria-ice.git
+cd sorveteria-ice
+npm --prefix backend install
+npm --prefix frontend install
 ```
 
-Sem backend, o site funciona com **dados mockados** (`src/mocks`) e salva usuários, carrinho e pedidos no `localStorage`.
-Quando a API NestJS existir, crie `frontend/.env` com:
+### 3. Variáveis de ambiente
 
-```
-VITE_API_URL=http://localhost:3000
-```
+Copiar os dois `.env.example` para `.env` (os valores padrão já combinam com o usuário criado no passo 1):
 
-e os serviços passam a chamar a API automaticamente (nenhuma tela precisa mudar).
-
-### Rotas (iguais ao Trello / Design System)
-
-| Rota | Página | Login? | Mascote |
-|---|---|---|---|
-| `/` | Home (hero, destaques, promoções, depoimentos) | – | acenando |
-| `/cardapio` | Grid com filtro por categoria e busca | – | comendo |
-| `/produto/:id` | Detalhe + quantidade | – | – |
-| `/carrinho` | Itens, quantidade, resumo | – | placa (vazio) |
-| `/checkout` | Endereço + pagamento | ✔ | – |
-| `/pedido/:id` | Status do pedido | ✔ | feliz |
-| `/minha-conta` | Pedidos + dados do usuário | ✔ | – |
-| `/auth/login` · `/auth/cadastro` | Autenticação (nome, CPF, e-mail, telefone, senha) | – | rosto |
-| `/sobre` · `/contato` | Institucional | – | normal · piscando |
-| `*` | 404 | – | placa |
-
-### Estrutura
-
-```
-frontend/src/
-├── assets/mascot/        # mascote recortado (webp transparente)
-├── components/
-│   ├── ui/               # Button, Badge, PriceBadge, Input, Alert, Skeleton, FlavorCard, States
-│   ├── layout/           # Navbar, Footer, Layout, RequireAuth, banner "fechado"
-│   ├── Mascot.tsx        # componente único do mascote (todas as poses)
-│   └── Logo.tsx          # logo provisório
-├── config/site.ts        # nome, horários, contatos, taxa de entrega
-├── context/              # AuthContext, CartContext, ToastContext
-├── hooks/useAsync.ts     # estados carregando / erro / dados
-├── mocks/flavors.ts      # cardápio provisório
-├── pages/                # uma página por rota
-├── services/             # api.ts + auth.ts, flavors.ts, orders.ts
-├── styles/               # tokens.css (Design System §2.3) + global.css
-├── types/                # Flavor, User, CartItem, Order...
-└── utils/format.ts       # preço BRL, máscaras e validação de CPF
+```bash
+cp backend/.env.example backend/.env
+cp frontend/.env.example frontend/.env
 ```
 
-### Decisões tomadas (pendências do Design System)
+Em `frontend/.env`, preencher `VITE_API_URL=http://localhost:3000` (sem isso, o site roda só com dados mockados, sem precisar de backend nem banco).
 
-- **CSS puro com variáveis** (sem Tailwind) — mais simples para o trabalho.
-- **Magenta neon do mascote:** `#E000E8` (medido no contorno) → `--color-glow`.
-- **Mascote:** fundo preto removido, exportado em WebP 512/1024 + favicon circular. As outras poses ainda não existem, então todas usam a pose normal como placeholder (basta adicionar o arquivo em `Mascot.tsx`).
-- **Logo:** provisório (rosto do mascote + “ai-ce” em Fredoka).
-- **Ainda pendente:** endereço, WhatsApp, redes (`config/site.ts`), lista real de produtos (`mocks/flavors.ts`) e fotos dos produtos (hoje são emojis por categoria).
+### 4. Criar as tabelas e popular o cardápio
 
----
+```bash
+cd backend
+npx prisma migrate dev
+npx prisma db seed
+cd ..
+```
 
-## Próximas fases (backend e entrega)
+### 5. Ligar o backend e o frontend
 
-O plano completo está em [`docs/fases/`](docs/fases/README.md), uma fase por arquivo, cada uma com checklist, critérios de aceite e verificação. Stack, arquitetura MVC, contrato da API e padrões de código estão em [`docs/arquitetura.md`](docs/arquitetura.md). As imagens do projeto (mascote, favicons, prints) e a descrição de cada uma estão em [`assets/`](assets/README.md).
+```bash
+npm run back      # http://localhost:3000 — terminal 1
+npm run front     # http://localhost:5173 — terminal 2
+```
 
-| Fase | Conteúdo |
+Abrir `http://localhost:5173`. Para conferir o banco pelo navegador: `cd backend && npx prisma studio`.
+
+### Rodar só o frontend (sem backend)
+
+```bash
+npm run front
+```
+
+Sem `VITE_API_URL` em `frontend/.env`, o site funciona inteiro com dados de exemplo (`frontend/src/mocks`) e salva usuário, carrinho e pedidos no `localStorage` — útil para apresentar sem precisar ligar o MySQL.
+
+## Documentação
+
+| Assunto | Onde |
 |---|---|
-| 0 | Repositório e ambiente ✅ |
-| 1 | Frontend React ✅ |
-| 2 | Análise: requisitos, diagrama de classes, modelo do banco, BPMN, arquitetura MVC, padrões de projeto |
-| 3 | Banco de dados + NestJS + Prisma |
-| 4 | Usuários e login |
-| 5 | Produtos / cardápio |
-| 6 | Pedidos e checkout |
-| 7 | Integração frontend ↔ backend |
-| 8 | Revisão e entrega |
+| Arquitetura, stack, contrato da API, padrões de código | [`docs/arquitetura.md`](docs/arquitetura.md) |
+| Plano de implementação (uma fase por arquivo) | [`docs/fases/README.md`](docs/fases/README.md) |
+| Requisitos, casos de uso, diagrama de classes, modelo de dados, BPMN, MVC, padrões de projeto, decisões | [`docs/analise/`](docs/analise/) |
+| Design System (cores, fontes, mascote) | [`docs/design-system.md`](docs/design-system.md) |
+| Quadro Trello (sprints e cards) | [`docs/trello.md`](docs/trello.md) |
+| Teste de usabilidade | [`docs/teste-usabilidade.md`](docs/teste-usabilidade.md) |
+| Qualidade (Lighthouse) | [`docs/qualidade.md`](docs/qualidade.md) |
+| Imagens do projeto (mascote, produtos, prints) | [`assets/README.md`](assets/README.md) |
+
+## Estrutura
+
+```
+sorveteria-ice/
+├── README.md
+├── package.json            # atalhos: npm run front / npm run back / npm run front:build
+├── frontend/                # React
+├── backend/                 # NestJS + Prisma
+├── assets/                  # imagens-fonte do projeto (ver assets/README.md)
+└── docs/
+    ├── arquitetura.md
+    ├── fases/                # plano de implementação, uma fase por arquivo
+    ├── analise/              # requisitos e diagramas
+    ├── design-system.md
+    ├── qualidade.md
+    ├── teste-usabilidade.md
+    └── trello.md
+```
+
+## Apresentação pessoal
+
+<!-- PENDENTE (manual, texto do autor, estilo entrevista de emprego): -->
+
+- O que te trouxe para a área de desenvolvimento web?
+- Qual parte deste projeto você mais gostou de construir, e por quê?
+- O que você faria diferente numa próxima versão?

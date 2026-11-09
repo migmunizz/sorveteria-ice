@@ -24,7 +24,7 @@
 - [x] “Minha conta” lista o pedido; editar o telefone continua salvo depois de recarregar.
 - [ ] Mudar o status do pedido no Prisma Studio → a página do pedido mostra o novo status ao recarregar. *(não verificado visualmente no navegador — ver resumo)*
 - [x] Enviar uma mensagem de contato → aparece no banco.
-- [ ] Desligar o backend e abrir o cardápio → aparece a tela de erro com “Tentar novamente”. *(não verificado visualmente no navegador — ver resumo)*
+- [x] Desligar o backend e abrir o cardápio → aparece a tela de erro com “Tentar novamente”. *(confirmado na Fase 8, com screenshot do navegador)*
 
 ## Critérios de aceite
 
