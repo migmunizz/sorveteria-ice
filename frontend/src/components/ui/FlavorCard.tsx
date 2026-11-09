@@ -8,7 +8,7 @@ import { Button } from './Button';
 
 export function FlavorImage({ flavor, className }: { flavor: Pick<Flavor, 'imageUrl' | 'category' | 'name'>; className?: string }) {
   const v = categoryVisual[flavor.category];
-  if (flavor.imageUrl) return <img src={flavor.imageUrl} alt={flavor.name} className={className} />;
+  if (flavor.imageUrl) return <img src={flavor.imageUrl} alt={flavor.name} width={400} height={300} className={className} />;
   return <div className={className} style={{ background: v.bg }} role="img" aria-label={flavor.name}>{v.emoji}</div>;
 }
 

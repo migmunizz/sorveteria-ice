@@ -8,7 +8,7 @@ export interface Flavor {
   description: string;
   price: number;
   category: Category;
-  imageUrl: string; // vazio até existirem as fotos dos produtos
+  imageUrl: string; // ilustração em SVG do produto, ver frontend/public/produtos/
   available: boolean;
   highlight: boolean;
   isNew?: boolean;

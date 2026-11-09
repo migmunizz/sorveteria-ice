@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" role="img" aria-labelledby="t11">
+  <title id="t11">Ilustração ilustrativa do produto 11 (conteúdo fictício do projeto acadêmico)</title>
+  <defs>
+    <linearGradient id="bg11" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#4a1830"/>
+      <stop offset="1" stop-color="#7a1d4a"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="400" rx="32" fill="url(#bg11)"/>
+
+  
+  <path d="M 125 140 L 275 140 L 255 320 Q 253 335 238 335 L 162 335 Q 147 335 145 320 Z"
+    fill="#8A5A2B" stroke="#00000022" stroke-width="2"/>
+  <rect x="118" y="125" width="164" height="26" rx="10" fill="#F2E3C9" stroke="#00000022" stroke-width="2"/>
+  <ellipse cx="160" cy="220" rx="16" ry="70" fill="#ffffff" opacity="0.22" transform="rotate(-12 160 220)"/>
+  <path d="M 125 135 Q 127.5 109, 140 135 Q 152.5 109, 155 135 Q 157.5 109, 170 135 Q 182.5 109, 185 135 Q 187.5 109, 200 135 Q 212.5 109, 215 135 Q 217.5 109, 230 135 Q 242.5 109, 245 135 Q 247.5 109, 260 135 Q 272.5 109, 275 135 L 275 153 L 125 153 Z" fill="#FFF0C2" stroke="#00000018" stroke-width="2"/>
+  <circle cx="189.5" cy="99.3" r="6.1" fill="#8A5A2B"/><circle cx="178.1" cy="120.4" r="5.3" fill="#8A5A2B"/><circle cx="194.9" cy="110.8" r="5.6" fill="#8A5A2B"/><circle cx="205.0" cy="101.9" r="5.5" fill="#8A5A2B"/><circle cx="173.2" cy="102.6" r="6.1" fill="#8A5A2B"/><circle cx="184.6" cy="100.3" r="5.7" fill="#8A5A2B"/><circle cx="204.2" cy="104.0" r="5.5" fill="#8A5A2B"/><circle cx="197.0" cy="100.9" r="6.8" fill="#8A5A2B"/><circle cx="188.0" cy="100.2" r="4.9" fill="#8A5A2B"/><circle cx="202.2" cy="111.1" r="7.0" fill="#8A5A2B"/>
+  <rect x="205" y="55" width="16" height="110" rx="7" fill="#FF8C1A" transform="rotate(-18 213 110)"/>
+
+</svg>

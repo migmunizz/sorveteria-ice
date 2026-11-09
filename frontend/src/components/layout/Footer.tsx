@@ -28,7 +28,7 @@ export function Footer() {
             </ul>
           </div>
         </div>
-        <div className="footer__bottom">© {new Date().getFullYear()} {site.fullName}. Projeto acadêmico.</div>
+        <div className="footer__bottom">© {new Date().getFullYear()} {site.fullName}. Projeto acadêmico. Dados, produtos e imagens fictícios.</div>
       </div>
     </footer>
   );

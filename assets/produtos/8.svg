@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" role="img" aria-labelledby="t8">
+  <title id="t8">Ilustração ilustrativa do produto 8 (conteúdo fictício do projeto acadêmico)</title>
+  <defs>
+    <linearGradient id="bg8" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#18334a"/>
+      <stop offset="1" stop-color="#1d5470"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="400" rx="32" fill="url(#bg8)"/>
+
+  <rect x="182" y="300" width="36" height="70" rx="8" fill="#E3B873" stroke="#B9823B" stroke-width="2"/>
+  
+  <path d="M 140 130 Q 140 70 200 70 Q 260 70 260 130 L 260 290 Q 260 310 200 310 Q 140 310 140 290 Z"
+    fill="#F2E9D8" stroke="#00000022" stroke-width="2"/>
+  <circle cx="198.8" cy="196.6" r="2.8" fill="#ffffff" opacity="0.8"/><circle cx="169.3" cy="174.2" r="3.8" fill="#ffffff" opacity="0.8"/><circle cx="149.4" cy="257.0" r="4.0" fill="#ffffff" opacity="0.8"/><circle cx="189.3" cy="144.0" r="4.5" fill="#ffffff" opacity="0.8"/><circle cx="218.9" cy="104.6" r="3.7" fill="#ffffff" opacity="0.8"/><circle cx="168.2" cy="217.7" r="2.9" fill="#ffffff" opacity="0.8"/><circle cx="207.2" cy="182.6" r="2.9" fill="#ffffff" opacity="0.8"/><circle cx="146.0" cy="268.4" r="4.9" fill="#ffffff" opacity="0.8"/><circle cx="154.5" cy="174.4" r="4.9" fill="#ffffff" opacity="0.8"/><circle cx="162.7" cy="169.7" r="3.9" fill="#ffffff" opacity="0.8"/><circle cx="220.6" cy="143.4" r="2.9" fill="#ffffff" opacity="0.8"/><circle cx="258.3" cy="174.7" r="3.1" fill="#ffffff" opacity="0.8"/><circle cx="205.6" cy="152.8" r="2.9" fill="#ffffff" opacity="0.8"/><circle cx="232.7" cy="156.8" r="3.4" fill="#ffffff" opacity="0.8"/><circle cx="149.6" cy="266.0" r="3.1" fill="#ffffff" opacity="0.8"/><circle cx="246.1" cy="179.4" r="3.1" fill="#ffffff" opacity="0.8"/><circle cx="212.4" cy="166.3" r="4.4" fill="#ffffff" opacity="0.8"/><circle cx="218.3" cy="115.8" r="3.1" fill="#ffffff" opacity="0.8"/><circle cx="194.0" cy="107.1" r="2.6" fill="#ffffff" opacity="0.8"/><circle cx="189.5" cy="219.4" r="4.1" fill="#ffffff" opacity="0.8"/>
+  <ellipse cx="170" cy="130" rx="18" ry="55" fill="#ffffff" opacity="0.22" transform="rotate(-18 170 130)"/>
+
+</svg>

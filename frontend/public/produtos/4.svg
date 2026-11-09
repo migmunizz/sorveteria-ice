@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" role="img" aria-labelledby="t4">
+  <title id="t4">Ilustração ilustrativa do produto 4 (conteúdo fictício do projeto acadêmico)</title>
+  <defs>
+    <linearGradient id="bg4" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#3a1d45"/>
+      <stop offset="1" stop-color="#5a2370"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="400" rx="32" fill="url(#bg4)"/>
+
+  
+  <circle cx="200" cy="215" r="100" fill="#9CB24A"/>
+  <ellipse cx="200" cy="270" rx="90" ry="28.000000000000004" fill="#000000" opacity="0.12"/>
+  <ellipse cx="165" cy="175" rx="32" ry="18" fill="#ffffff" opacity="0.22" transform="rotate(-25 165 175)"/>
+  <rect x="239.0" y="254.7" width="10" height="3.2" rx="1.6" fill="#FFFFFF" transform="rotate(304 244.0 256.3)"/><rect x="179.1" y="180.7" width="10" height="3.2" rx="1.6" fill="#FFFFFF" transform="rotate(187 184.1 182.3)"/><rect x="150.9" y="202.2" width="10" height="3.2" rx="1.6" fill="#FFFFFF" transform="rotate(159 155.9 203.8)"/><rect x="225.3" y="239.9" width="10" height="3.2" rx="1.6" fill="#FFFFFF" transform="rotate(10 230.3 241.5)"/><rect x="225.4" y="169.4" width="10" height="3.2" rx="1.6" fill="#FFFFFF" transform="rotate(251 230.4 171.0)"/><rect x="235.5" y="242.6" width="10" height="3.2" rx="1.6" fill="#FFFFFF" transform="rotate(310 240.5 244.2)"/><rect x="164.5" y="253.0" width="10" height="3.2" rx="1.6" fill="#FFFFFF" transform="rotate(339 169.5 254.6)"/><rect x="217.7" y="209.8" width="10" height="3.2" rx="1.6" fill="#FFFFFF" transform="rotate(127 222.7 211.4)"/><rect x="149.1" y="243.1" width="10" height="3.2" rx="1.6" fill="#FFFFFF" transform="rotate(184 154.1 244.7)"/><rect x="239.2" y="226.1" width="10" height="3.2" rx="1.6" fill="#FFFFFF" transform="rotate(300 244.2 227.7)"/><rect x="184.3" y="229.7" width="10" height="3.2" rx="1.6" fill="#FFFFFF" transform="rotate(266 189.3 231.3)"/><rect x="190.9" y="206.4" width="10" height="3.2" rx="1.6" fill="#FFFFFF" transform="rotate(230 195.9 208.0)"/><rect x="157.4" y="217.4" width="10" height="3.2" rx="1.6" fill="#FFFFFF" transform="rotate(344 162.4 219.0)"/><rect x="195.3" y="214.0" width="10" height="3.2" rx="1.6" fill="#FFFFFF" transform="rotate(37 200.3 215.6)"/>
+
+</svg>

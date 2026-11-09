@@ -95,11 +95,11 @@ Gerados a partir do rosto do mascote (círculo roxo, fundo transparente). Cópia
 
 ## produtos/
 
-Vazia. Fotos dos produtos (card 16 “Lista Real” e card 15 “Pasta de imagens”).
+Ilustração **original** por produto (card 16 “Lista Real” e card 15 “Pasta de imagens”). Como o projeto não tem fotos reais da sorveteria, cada sabor ganhou um ícone cartoon em SVG — vetor simples e leve, sem depender de fotos de banco de imagens.
 
-- Nome = id do produto em kebab-case: `1-baunilha-com-calda.webp`, `9-acai-300ml.webp`…
-- Proporção **4:3**, 800×600, WebP, fundo escuro ou transparente (combina com o card roxo).
-- Depois de salvar: copiar para `frontend/public/produtos/` e preencher `imageUrl: '/produtos/<arquivo>'` no seed do backend (Fase 5) e no mock do frontend.
+- Nome = id do produto: `1.svg` … `12.svg`.
+- Quadrado 400×400, cantos arredondados, fundo em gradiente (mesmas cores de `categoryVisual` em `frontend/src/mocks/flavors.ts`, uma por categoria) com o sabor desenhado em formas simples (casquinha, picolé, tigela de açaí, copo de milkshake etc.), nas cores do Design System.
+- Cópia idêntica em `frontend/public/produtos/` (servida pelo Vite) e `imageUrl: '/produtos/<id>.svg'` tanto no mock do frontend quanto no seed do backend.
 
 ## referencias/
 

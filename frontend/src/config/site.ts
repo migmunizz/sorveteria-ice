@@ -1,13 +1,13 @@
-// Dados da sorveteria. Itens com "PENDENTE" ainda precisam ser preenchidos (Design System §12).
+// Dados fictícios da sorveteria (projeto acadêmico, sem endereço ou contato reais).
 export const site = {
   name: 'ai-ce',
   fullName: 'Sorveteria ai-ce',
   slogan: 'O sorvete mais gelado do litoral',
-  address: 'PENDENTE — Litoral de SP (raio de entrega de 10 km)',
-  whatsapp: '5513999999999', // PENDENTE
-  phone: '(13) 99999-9999', // PENDENTE
-  email: 'contato@ai-ce.com.br', // PENDENTE
-  instagram: 'https://instagram.com/', // PENDENTE
+  address: 'Avenida Beira-Mar, 480 — Jardim das Conchas, Litoral de SP',
+  whatsapp: '5500000000000',
+  phone: '(00) 00000-0000',
+  email: 'contato@sorveteriaaice.exemplo.com',
+  instagram: 'https://instagram.com/sorveteria.aice',
   deliveryRadiusKm: 10,
   deliveryFee: 6,
   // 0 = domingo ... 6 = sábado. Horas no formato 24h.
